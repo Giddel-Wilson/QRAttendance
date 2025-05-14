@@ -24,6 +24,7 @@
 		"html5-qrcode": "^2.3.8",
 		"jsqr": "^1.4.0",
 		"lucia": "^2.0.0",
+		"qrcode": "^1.5.3",
 		"svelte": "^5.0.0"
 	},
 	"devDependencies": {
