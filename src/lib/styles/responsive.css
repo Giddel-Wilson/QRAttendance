@@ -1,0 +1,71 @@
+/* Global responsive styles */
+
+/* Tables */
+.table-responsive {
+	width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+/* Grids */
+.grid-responsive {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 1rem;
+}
+
+@media (max-width: 768px) {
+	.grid-responsive {
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	}
+
+	/* Common dashboard stat grids */
+	.dashboard-stats {
+		grid-template-columns: repeat(2, 1fr) !important;
+	}
+}
+
+@media (max-width: 480px) {
+	.grid-responsive {
+		grid-template-columns: 1fr;
+	}
+
+	.dashboard-stats {
+		grid-template-columns: 1fr !important;
+	}
+
+	/* Improve form elements on mobile */
+	input,
+	select,
+	textarea {
+		font-size: 16px !important; /* Prevents zoom on iOS */
+	}
+}
+
+/* Helper classes */
+.hide-on-mobile {
+	display: block;
+}
+
+.show-on-mobile {
+	display: none;
+}
+
+@media (max-width: 768px) {
+	.hide-on-mobile {
+		display: none;
+	}
+
+	.show-on-mobile {
+		display: block;
+	}
+}
+
+/* Make modals responsive */
+@media (max-width: 768px) {
+	.modal-content {
+		width: 90% !important;
+		max-width: none !important;
+		padding: 1.5rem !important;
+	}
+}
