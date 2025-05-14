@@ -1,0 +1,36 @@
+{
+	"name": "departmentalattendance",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"lint": "eslint .",
+		"init-db": "node --experimental-json-modules scripts/init-db.js",
+		"reset-db": "npx prisma migrate reset --force",
+		"studio": "npx prisma studio"
+	},
+	"dependencies": {
+		"@lucia-auth/adapter-prisma": "^3.0.0",
+		"@prisma/client": "^6.7.0",
+		"bcrypt": "^5.1.0",
+		"better-sqlite3": "^11.10.0",
+		"chart.js": "^4.4.9",
+		"date-fns": "^4.1.0",
+		"html5-qrcode": "^2.3.8",
+		"jsqr": "^1.4.0",
+		"lucia": "^2.0.0"
+	},
+	"devDependencies": {
+		"@tailwindcss/postcss": "^4.1.4",
+		"@types/bcrypt": "^5.0.0",
+		"@types/node": "^22.15.3",
+		"autoprefixer": "^10.4.21",
+		"postcss": "^8.5.3",
+		"prisma": "^6.7.0",
+		"tailwindcss": "^3.3.0"
+	}
+}

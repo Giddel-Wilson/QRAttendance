@@ -1,0 +1,93 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              String       @id @default(uuid())
+  email           String       @unique
+  passwordHash    String
+  name            String?
+  role            String       @default("STUDENT")
+  department      String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  
+  taughtCourses   Course[]     @relation("CourseToLecturer")
+  attendances     Attendance[] @relation("UserToAttendance")
+  enrolledCourses StudentCourse[]
+}
+
+model Course {
+  id          String       @id @default(uuid())
+  code        String       @unique
+  name        String
+  description String?
+  department  String?
+  semester    String?      @default("FIRST")
+  lecturerId  String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  lecturer    User?        @relation("CourseToLecturer", fields: [lecturerId], references: [id])
+  schedules   Schedule[]
+  sessions    Session[]
+  students    StudentCourse[]
+}
+
+model StudentCourse {
+  id        String   @id @default(uuid())
+  studentId String
+  courseId  String
+  enrolledAt DateTime @default(now())
+  
+  student    User     @relation(fields: [studentId], references: [id])
+  course     Course   @relation(fields: [courseId], references: [id])
+  
+  @@unique([studentId, courseId])
+}
+
+model Schedule {
+  id        String   @id @default(uuid())
+  courseId  String
+  dayOfWeek Int
+  startTime String
+  endTime   String
+  location  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  course    Course   @relation(fields: [courseId], references: [id])
+}
+
+model Session {
+  id        String       @id @default(uuid())
+  courseId  String
+  date      DateTime
+  title     String?
+  topic     String?
+  notes     String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  
+  course     Course      @relation(fields: [courseId], references: [id])
+  attendances Attendance[]
+}
+
+model Attendance {
+  id        String   @id @default(uuid())
+  userId    String
+  sessionId String
+  status    String
+  timestamp DateTime @default(now())
+  notes     String?
+  
+  user     User     @relation("UserToAttendance", fields: [userId], references: [id])
+  session  Session  @relation(fields: [sessionId], references: [id])
+  
+  @@unique([userId, sessionId])
+}
