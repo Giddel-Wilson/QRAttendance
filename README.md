@@ -105,6 +105,8 @@ QRAttendance/
 │   └── app.html               # Main HTML template
 ├── static/                    # Static assets
 ├── tests/                     # Test files
+├── vite.config.ts             # Vite configuration
+├── vitest-setup-client.ts     # Client-side test setup
 └── package.json               # Project dependencies
 ```
 
@@ -112,8 +114,10 @@ QRAttendance/
 
 - [Svelte](https://svelte.dev/) - Front-end framework
 - [SvelteKit](https://kit.svelte.dev/) - Application framework
-- [QR Code Scanner](https://github.com/nimiq/qr-scanner) - For QR code scanning
-- [Tailwind CSS](https://tailwindcss.com/) - For styling
+- [Tailwind CSS](https://tailwindcss.com/) - For styling and UI components
+- [Vite](https://vitejs.dev/) - Build tool and development server
+- [Vitest](https://vitest.dev/) - Testing framework
+- [Testing Library](https://testing-library.com/docs/svelte-testing-library/intro) - For component testing
 
 ## Development
 
@@ -134,6 +138,35 @@ npm run dev
 
 3. Make changes and see them reflected in real-time
 
+### Testing
+
+The project uses Vitest for testing with separate configurations for client and server tests:
+
+- Client tests: Run in JSDOM environment with Svelte Testing Library
+- Server tests: Run in Node environment
+
+Run tests with:
+
+```bash
+# Run all tests
+npm test
+
+# Run client-side tests only
+npm run test:client
+
+# Run server-side tests only
+npm run test:server
+```
+
+## Build Configuration
+
+The project uses Vite with TailwindCSS integration:
+
+- PostCSS processing for CSS
+- SvelteKit plugin for Svelte integration
+- Separate testing configurations for client and server code
+- Support for browser compatibility through proper environment setup
+
 ## Contributing
 
 1. Fork the repository
@@ -148,4 +181,4 @@ npm run dev
 
 ## Support
 
-For support or questions, please [open an issue](https://github.com/yourusername/QRAttendance/issues) on our GitHub repository.
+For support or questions, please open an issue on our GitHub repository.
