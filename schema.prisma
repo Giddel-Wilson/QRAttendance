@@ -25,11 +25,7 @@ taughtCourses CourseLecturer[]
 attendances Attendance[] @relation("UserToAttendance")
 enrolledCourses StudentCourse[]
 
-// Add these relation fields to match the ones referenced in Notification and UserNotification
-notifications Notification[] @relation("UserToNotifications")
-userNotifications UserNotification[] @relation("UserToUserNotifications")
-
-// Add these two relations that are referenced by Notification and UserNotification
+// FIXED: Keep only these two correctly named relations
 createdNotifications Notification[] @relation("UserToNotifications")
 userNotifications UserNotification[] @relation("UserToUserNotifications")
 }
