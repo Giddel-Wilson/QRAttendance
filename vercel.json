@@ -1,0 +1,8 @@
+{
+  "buildCommand": "prisma generate && vite build",
+  "outputDirectory": ".svelte-kit/output",
+  "framework": "sveltekit",
+  "regions": ["iad1"],
+  "installCommand": "bun install",
+  "crons": []
+}
