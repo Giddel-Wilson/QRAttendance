@@ -10,9 +10,10 @@ class SafePrismaClient extends PrismaClient {
 		super({
 			log: ['error']
 		});
+		// Remove any $on('beforeExit') hooks here
 	}
 
-	// Safe query wrapper
+	// Safe query wrapper with improved error handling
 	async safeQuery<T>(queryFn: () => Promise<T>, fallback: T): Promise<T> {
 		try {
 			return await queryFn();
@@ -21,6 +22,12 @@ class SafePrismaClient extends PrismaClient {
 				if (error.code === 'P2021') {
 					// Table does not exist
 					console.error(`Database table not found: ${error.meta?.table}`);
+				} else if (error.code === 'P2022') {
+					// Column does not exist
+					console.error(`Database column not found: ${error.meta?.column}`);
+				} else if (error.code === 'P2025') {
+					// Record not found
+					console.error(`Record not found: ${error.meta?.cause}`);
 				}
 			}
 			console.error('Database query error:', error);
