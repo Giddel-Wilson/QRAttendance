@@ -7,52 +7,32 @@ let prisma: PrismaClient;
 // Check if we're in production to avoid instantiating multiple instances during hot reloads
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-// Validate a database URL to catch connection problems early
-function isValidDatabaseUrl(url: string | undefined): boolean {
-  if (!url) return false;
-  
-  try {
-    // Simple validation for PostgreSQL URLs
-    if (url.startsWith('postgres:') || url.startsWith('postgresql:')) {
-      const match = url.match(/^(postgresql|postgres):\/\/[^:]+:[^@]+@[^:]+:\d+\/\w+/);
-      return !!match;
-    }
-    
-    // For SQLite, just check basic format
-    if (url.startsWith('file:')) {
-      return true;
-    }
-    
-    return false;
-  } catch (e) {
-    console.error('Error validating database URL:', e);
-    return false;
-  }
-}
-
-// Better database URL handling with validation
+// Better database URL handling with validation and placeholder detection
 const getDatabaseUrl = () => {
   if (process.env.NODE_ENV === 'production') {
-    // For Vercel Postgres integration
+    // Check for Vercel Postgres integration URLs
     const pgUrl = process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL;
     
-    if (pgUrl && isValidDatabaseUrl(pgUrl)) {
-      console.log(`Using PostgreSQL database (${pgUrl.split(':')[0]} protocol)`);
+    if (pgUrl) {
+      // Check if URL contains placeholder values
+      if (pgUrl.includes('hostname:') || pgUrl.includes('username:') || pgUrl.includes('password@')) {
+        console.error('⚠️ Database URL contains placeholder values! Please set actual connection details in environment variables.');
+        console.error('Current URL appears to contain placeholder values instead of real connection details.');
+      }
+      
+      console.log(`Using PostgreSQL database connection`);
       return pgUrl;
     }
     
     // Fallback to DATABASE_URL if specified
-    if (process.env.DATABASE_URL && isValidDatabaseUrl(process.env.DATABASE_URL)) {
+    if (process.env.DATABASE_URL) {
       console.log('Using fallback DATABASE_URL');
       return process.env.DATABASE_URL;
     }
     
-    // If we're here, no valid URL was found - log error but return something to prevent crash
-    console.error('⚠️ No valid database URL found - application may fail to connect to database');
-    console.error('Make sure POSTGRES_URL or POSTGRES_PRISMA_URL is properly set in environment variables');
-    
-    // Return the development database as fallback
-    return 'file:./dev.db';
+    // If we're here, no valid URL was found
+    console.error('⚠️ No database URL found - application will fail to connect');
+    console.error('Please set POSTGRES_URL or POSTGRES_PRISMA_URL in your environment variables');
   }
   
   // Development - using SQLite
@@ -71,9 +51,7 @@ try {
         url: databaseUrl
       }
     },
-    log: process.env.NODE_ENV === 'production' 
-      ? ['error', 'warn']
-      : ['query', 'error', 'warn']
+    log: ['error', 'warn']
   };
 
   if (process.env.NODE_ENV === 'production') {
