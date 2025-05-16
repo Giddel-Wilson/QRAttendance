@@ -7,9 +7,7 @@ datasource db {
   url      = env("POSTGRES_PRISMA_URL")
 }
 
-// Simple model for testing
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  createdAt DateTime @default(now())
+  id String @id @default(uuid())
+  email String @unique
 }

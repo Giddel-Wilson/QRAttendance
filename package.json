@@ -11,7 +11,9 @@
 		"lint": "eslint .",
 		"init-db": "node --experimental-json-modules scripts/init-db.js",
 		"reset-db": "npx prisma migrate reset --force",
-		"studio": "npx prisma studio"
+		"studio": "npx prisma studio",
+		"migrate": "node scripts/migrate-db.js",
+		"deploy-migrate": "prisma migrate deploy"
 	},
 	"dependencies": {
 		"@lucia-auth/adapter-prisma": "^3.0.0",
@@ -24,6 +26,7 @@
 		"html5-qrcode": "^2.3.8",
 		"jsqr": "^1.4.0",
 		"lucia": "^2.0.0",
+		"pg": "^8.16.0",
 		"qrcode": "^1.5.3",
 		"svelte": "^5.0.0"
 	},
