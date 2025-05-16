@@ -1,5 +1,5 @@
 {
-  "buildCommand": "prisma generate && vite build",
+  "buildCommand": "cp prisma/schema.deployment.prisma prisma/schema.prisma && prisma generate && vite build",
   "outputDirectory": ".svelte-kit/output",
   "framework": "sveltekit",
   "regions": [
