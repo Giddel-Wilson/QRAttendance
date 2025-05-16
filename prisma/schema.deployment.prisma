@@ -8,4 +8,9 @@ datasource db {
   directUrl = env("DATABASE_URL")
 }
 
-// ...existing code...
+// Simple model for deployment
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
